@@ -6,6 +6,7 @@ import com.ann20021.spring.book.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookApiControler {
@@ -46,5 +47,9 @@ public class BookApiControler {
         return bookService.delete(id);
     }
 
+    @PatchMapping("/api/v1/book/{id}")
+    public BookEntity path (@PathVariable Integer id, @RequestBody Map <String, String> fields){
+        return bookService.editParth(id, fields).orElseThrow(ResourseNotFoundEception::new);
+    }
 
 }
