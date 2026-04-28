@@ -32,7 +32,7 @@ public class BookService {
         }
     }
 
-    //Метод возвращающий весь список
+    //Метод возвращающий весь список (GET)
     public List<BookEntity> all(){
         return bookStorage;
     }
@@ -42,6 +42,7 @@ public class BookService {
         return bookStorage.stream().filter((book -> book.getId().equals(id))).findFirst();
     }
 
+    //Метод POST
     public BookEntity create(String title, String description){
         BookEntity book = new BookEntity();
         book.setId(bookStorage.size());
@@ -49,7 +50,14 @@ public class BookService {
         book.setDescription(description);
         bookStorage.add(book);
         return book;
+    }
 
+    //Метод PUT, Optional тк может быть Exception
+    public Optional<BookEntity> edit(BookEntity book){
+        BookEntity oldBookEntity = byId(book.getId()).orElseThrow();
+        oldBookEntity.setTitle(book.getTitle());
+        oldBookEntity.setDescription(book.getDescription());
+        return Optional.of(oldBookEntity);
     }
 
 }
