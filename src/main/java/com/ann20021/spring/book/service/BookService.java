@@ -54,7 +54,12 @@ public class BookService {
 
     //Метод PUT, Optional тк может быть Exception
     public Optional<BookEntity> edit(BookEntity book){
-        BookEntity oldBookEntity = byId(book.getId()).orElseThrow();
+        Optional<BookEntity> oldBookOptional = byId(book.getId());
+        if (oldBookOptional.isEmpty()){
+            return Optional.empty();
+        }
+
+        BookEntity oldBookEntity = oldBookOptional.get();
         oldBookEntity.setTitle(book.getTitle());
         oldBookEntity.setDescription(book.getDescription());
         return Optional.of(oldBookEntity);
